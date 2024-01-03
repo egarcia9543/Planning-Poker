@@ -1,0 +1,28 @@
+.form_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.form_fields {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2rem;
+}
+
+.form_label {
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.form_input {
+  margin-top: 0.4rem;
+  padding: 0.5rem 4rem 0.5rem 1rem;
+  border: #bb65ff 0.12rem solid;
+  border-radius: 2rem;
+  outline: none;
+  background-color: transparent;
+  color: #fff;
+}

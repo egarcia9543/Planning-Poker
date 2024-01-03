@@ -1,0 +1,6 @@
+.navbar_home {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  position: absolute;
+}
