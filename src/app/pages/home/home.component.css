@@ -1,0 +1,52 @@
+.navbar {
+  animation: fadeIn 4s ease-in-out;
+}
+
+.welcome {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.welcome_section {
+  animation: fadeOut 1s ease-in-out;
+  animation-fill-mode: forwards;
+}
+
+.welcome_logos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.logos {
+  display: flex;
+  justify-content: center;
+}
+
+.create_section {
+  animation: fadeIn 5s ease-in-out;
+  position: absolute;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    display: none;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    display: none;
+  }
+  100% {
+    opacity: 1;
+  }
+}
