@@ -1,0 +1,23 @@
+<div class="modal">
+    <form class="modal_form" [formGroup]="signupForm" (submit)="onSubmit()">
+        <div class="form_fields">
+            <label class="form_label" for="name">Tu nombre</label>
+            <input class="form_input_text" id="name" type="text" formControlName="username">
+        </div>
+        <div class="form_radios">
+            <div class="form_radios_player">
+                <label class="form_label" for="player">Jugador</label>
+                <input class="form_input_radio" type="radio" id="player" name="playerType" value="player" formControlName="playerType">
+            </div>
+            <div class="form_radios_player">
+                <label class="form_label" for="spectator">Espectador</label>
+                <input class="form_input_radio" type="radio" id="spectator" name="playerType" value="spectator" formControlName="playerType">
+            </div>
+        </div>
+        <app-button 
+        buttonText="Crear partida" 
+        buttonClass="button primary_button" 
+        [buttonDisabled]="!signupForm.valid"
+      />
+    </form>
+</div>
