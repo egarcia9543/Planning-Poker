@@ -8,5 +8,15 @@
   logoHeight="100"/>
   </a>
   <app-title
-  text="Crear partida"/>
+  [text]="title"/>
+  <div>
+    @if (initials !== '') {
+      <p>{{initials}}</p>
+    }
+    @if (location !== 'navbar_home') {
+      <app-button 
+      buttonText="Invitar jugadores"
+      buttonClass="button nav_button"/>
+    }
+  </div>
 </nav>

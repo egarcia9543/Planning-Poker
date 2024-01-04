@@ -23,3 +23,10 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+.nav_button {
+  background-color: transparent;
+  color: #fff;
+  border: #fff 1px solid;
+  cursor: pointer;
+}

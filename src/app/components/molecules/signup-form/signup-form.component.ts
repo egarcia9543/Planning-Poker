@@ -11,9 +11,14 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
   styleUrl: './signup-form.component.css'
 })
 export class SignupFormComponent {
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder) {
+    this.playerService.isGameReady$.subscribe((value: boolean) => {
+      this.isGameReady = value;
+    })
+  }
 
   private playerService = inject(PlayersService);
+  isGameReady: boolean = false;
 
   signupForm = this.fb.group({
     username: ['', [
@@ -31,8 +36,7 @@ export class SignupFormComponent {
       playerType: this.signupForm.value.playerType ?? '',
       role: 'admin',
       initials: this.signupForm.value.username?.substring(0,2).toUpperCase() ?? '',
-      score: 0
+      score: null
     });
-    console.log(this.playerService.mockPlayers());
   }
 }

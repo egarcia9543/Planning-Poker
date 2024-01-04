@@ -12,4 +12,6 @@ import { TitleComponent } from '../../atoms/title/title.component';
 })
 export class NavbarComponent {
   @Input() location: string = '';
+  @Input() title: string = '';
+  @Input() initials: string = '';
 }
