@@ -3,5 +3,5 @@ export interface Player {
     playerType: string;
     role: string;
     initials: string;
-    score: number | null;
+    score: number | null | string;
 }

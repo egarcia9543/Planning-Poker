@@ -1,0 +1,22 @@
+<div class="cards_container">
+    <p class="card_label">Elige una carta 👇</p>
+    <div class="card_row">
+        @if (cards.length === 0) {
+            <p class="card_error">
+                No hay cartas registradas
+            </p>
+        } @else {
+            @for (card of cards; track card; let i = $index) {
+                @if (card == chosenCard) {
+                    <p class="card chosen">
+                        {{card}}
+                    </p>
+                } @else {
+                    <p class="card" (click)="onCardClicked(card)">
+                        {{card}}
+                    </p>
+                }
+            }
+        }
+    </div>
+</div>
