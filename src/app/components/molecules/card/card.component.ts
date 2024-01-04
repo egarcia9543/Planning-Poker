@@ -14,6 +14,7 @@ export class CardComponent {
   cards: (number | string)[] = [];
   players: Player[] = [];
   chosenCard: number | string | null = null;
+  isCardChosen: boolean = false;
   constructor(private cardsService: CardsService, private playersService: PlayersService) { }
 
   ngOnInit() {
@@ -39,5 +40,6 @@ export class CardComponent {
       }
     })
     this.chosenCard = card;
+    this.isCardChosen = true;
   }
 }

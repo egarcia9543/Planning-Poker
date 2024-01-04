@@ -12,9 +12,15 @@
                         {{card}}
                     </p>
                 } @else {
-                    <p class="card" (click)="onCardClicked(card)">
-                        {{card}}
-                    </p>
+                    @if (isCardChosen) {
+                        <p class="card">
+                           {{card}}
+                        </p>
+                    } @else {
+                        <p class="card" (click)="onCardClicked(card)">
+                            {{card}}
+                        </p>
+                    }
                 }
             }
         }
