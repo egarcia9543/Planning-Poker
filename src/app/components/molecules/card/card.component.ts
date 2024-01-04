@@ -21,11 +21,23 @@ export class CardComponent {
     this.playersService.players.subscribe(players => {
       this.players = players;
     })
+
+    this.cardsService.selectedCards.subscribe(cards => {
+      if (cards.length > 0) {
+        
+      }
+    })
   }
 
   onCardClicked(card: number | string) {
     this.cardsService.addCard(card);
     this.players[7].score = card;
+    this.players.forEach(player => {
+      if (player.playerType === 'player' && player.score === null) {
+        player.score = this.cards[Math.floor(Math.random() * this.cards.length)];
+        this.cardsService.addCard(player.score);
+      }
+    })
     this.chosenCard = card;
   }
 }
