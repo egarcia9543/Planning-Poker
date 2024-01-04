@@ -1,4 +1,4 @@
-<div class="modal">
+<div class="modal" [class.hidden]="isGameReady">
     <form class="modal_form" [formGroup]="signupForm" (submit)="onSubmit()">
         <div class="form_fields">
             <label class="form_label" for="name">Tu nombre</label>
@@ -20,4 +20,4 @@
         [buttonDisabled]="!signupForm.valid"
       />
     </form>
-</div>
+</div>  

@@ -4,3 +4,12 @@
   align-items: center;
   position: absolute;
 }
+
+.navbar_board {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;
+  padding-right: 2rem;
+}

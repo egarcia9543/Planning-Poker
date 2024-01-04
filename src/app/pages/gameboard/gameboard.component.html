@@ -1,5 +1,78 @@
+<header>
+    <app-navbar 
+    location="navbar_board"
+    [title]="boardName()"/>
+</header>
 <main class="board">
-    <div [class.board_signup]="true">
+    <div [class.board_signup]="!isGameReady">
         <app-signup-form />
+    </div>
+
+    <div class="board_top">
+    @for (player of players.slice(0, 3); track $index) {
+        @if (player.playerType === 'spectator') {
+            <p class="player_card_spectator">{{player.initials}}</p>
+        } @else if (player.score !== null) {
+            <p class="player_card_chosen">{{player.score}}</p>
+        } @else {
+            <div class="player">
+                <p class="player_card"></p>
+                <p>{{player.username}}</p>
+            </div>
+        }
+    }
+    </div>
+
+    <div class="board_right">
+    @for (player of players.slice(3, 4); track $index) {
+        @if (player.playerType === 'spectator') {
+            <p class="player_card_spectator">{{player.initials}}</p>
+        } @else if (player.score !== null) {
+            <p class="player_card_chosen">{{player.score}}</p>
+        } @else {
+            <div class="player">
+                <p class="player_card"></p>
+                <p>{{player.username}}</p>
+            </div>
+        }
+    }
+    </div>
+
+    <div class="board_bottom">
+    @for (player of players.slice(4, 7); track $index) {
+        @if (player.playerType === 'spectator') {
+            <p class="player_card_spectator">{{player.initials}}</p>
+        } @else if (player.score !== null) {
+            <p class="player_card_chosen">{{player.score}}</p>
+        } @else {
+            <div class="player">
+                <p class="player_card"></p>
+                <p>{{player.username}}</p>
+            </div>
+        }
+    }
+    </div>
+
+    <div class="board_left">
+    @for (player of players.slice(7, 8); track $index) {
+        @if (player.playerType === 'spectator') {
+            <p class="player_card_spectator">{{player.initials}}</p>
+        } @else if (player.score !== null) {
+            <p class="player_card_chosen">{{player.score}}</p>
+        } @else {
+            <div class="player">
+                <p class="player_card"></p>
+                <p>{{player.username}}</p>
+            </div>
+        }
+    }
+    </div>
+
+    <div class="board_table">
+        <div class="board_table_inner">
+            <div class="board_table_center">
+
+            </div>
+        </div>
     </div>
 </main>
