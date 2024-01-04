@@ -6,7 +6,7 @@
     background-color: #1f0d3f;
     border: #a962e8 solid 0.1rem;
     border-radius: 1rem;
-    animation: fadeIn 1s ease-in-out;
+    animation: fadeIn 0.3s ease-in-out;
 }
 
 .modal_form {

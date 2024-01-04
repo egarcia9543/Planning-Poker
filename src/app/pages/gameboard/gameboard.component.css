@@ -14,6 +14,7 @@
     justify-content: center;
     align-items: center;
     backdrop-filter: blur(5px);
+    z-index: 100;
 }
 
 .board_table {
@@ -104,6 +105,11 @@
     align-items: center;
 }
 
+.player_card_username {
+    color: #fff;
+    font-weight: 100;
+}
+
 .player_card_spectator {
     background-color: #bdbdff;
     color: #270953;
@@ -114,4 +120,23 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.player_card_chosen {
+    background-color: #bb65ff;
+    border-radius: 0.5rem;
+    width: 2rem;
+    height: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card_row {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }

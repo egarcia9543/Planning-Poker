@@ -13,11 +13,19 @@
         @if (player.playerType === 'spectator') {
             <p class="player_card_spectator">{{player.initials}}</p>
         } @else if (player.score !== null) {
-            <p class="player_card_chosen">{{player.score}}</p>
+            <div class="player">
+                @if (revealCards) {
+                    <p class="player_card_card">{{player.score}}</p>
+                    <p class="player_card_username">{{player.username}}</p>
+                } @else {
+                    <p class="player_card_chosen"></p>
+                    <p class="player_card_username">{{player.username}}</p>
+                }
+            </div>
         } @else {
             <div class="player">
                 <p class="player_card"></p>
-                <p>{{player.username}}</p>
+                <p class="player_card_username">{{player.username}}</p>
             </div>
         }
     }
@@ -28,11 +36,19 @@
         @if (player.playerType === 'spectator') {
             <p class="player_card_spectator">{{player.initials}}</p>
         } @else if (player.score !== null) {
-            <p class="player_card_chosen">{{player.score}}</p>
+            <div class="player">
+                @if (revealCards) {
+                    <p class="player_card_card">{{player.score}}</p>
+                    <p class="player_card_username">{{player.username}}</p>
+                } @else {
+                    <p class="player_card_chosen"></p>
+                    <p class="player_card_username">{{player.username}}</p>
+                }
+            </div>
         } @else {
             <div class="player">
                 <p class="player_card"></p>
-                <p>{{player.username}}</p>
+                <p class="player_card_username">{{player.username}}</p>
             </div>
         }
     }
@@ -43,11 +59,19 @@
         @if (player.playerType === 'spectator') {
             <p class="player_card_spectator">{{player.initials}}</p>
         } @else if (player.score !== null) {
-            <p class="player_card_chosen">{{player.score}}</p>
+            <div class="player">
+                @if (revealCards) {
+                    <p class="player_card_card">{{player.score}}</p>
+                    <p class="player_card_username">{{player.username}}</p>
+                } @else {
+                    <p class="player_card_chosen"></p>
+                    <p class="player_card_username">{{player.username}}</p>
+                }
+            </div>
         } @else {
             <div class="player">
                 <p class="player_card"></p>
-                <p>{{player.username}}</p>
+                <p class="player_card_username">{{player.username}}</p>
             </div>
         }
     }
@@ -58,11 +82,19 @@
         @if (player.playerType === 'spectator') {
             <p class="player_card_spectator">{{player.initials}}</p>
         } @else if (player.score !== null) {
-            <p class="player_card_chosen">{{player.score}}</p>
+            <div class="player">
+                @if (revealCards) {
+                    <p class="player_card_card">{{player.score}}</p>
+                    <p class="player_card_username">{{player.username}}</p>
+                } @else {
+                    <p class="player_card_chosen"></p>
+                    <p class="player_card_username">{{player.username}}</p>
+                }
+            </div>
         } @else {
             <div class="player">
                 <p class="player_card"></p>
-                <p>{{player.username}}</p>
+                <p class="player_card_username">{{player.username}}</p>
             </div>
         }
     }
@@ -71,8 +103,13 @@
     <div class="board_table">
         <div class="board_table_inner">
             <div class="board_table_center">
-
+                
             </div>
         </div>
     </div>
+    
+    @if (!isSpectator) {
+        <app-card /> 
+    }
+    
 </main>
