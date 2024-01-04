@@ -15,7 +15,7 @@
         } @else if (player.score !== null) {
             <div class="player">
                 @if (revealCards) {
-                    <p class="player_card_card">{{player.score}}</p>
+                    <p class="player_card value">{{player.score}}</p>
                     <p class="player_card_username">{{player.username}}</p>
                 } @else {
                     <p class="player_card_chosen"></p>
@@ -38,7 +38,7 @@
         } @else if (player.score !== null) {
             <div class="player">
                 @if (revealCards) {
-                    <p class="player_card_card">{{player.score}}</p>
+                    <p class="player_card value">{{player.score}}</p>
                     <p class="player_card_username">{{player.username}}</p>
                 } @else {
                     <p class="player_card_chosen"></p>
@@ -61,7 +61,7 @@
         } @else if (player.score !== null) {
             <div class="player">
                 @if (revealCards) {
-                    <p class="player_card_card">{{player.score}}</p>
+                    <p class="player_card value">{{player.score}}</p>
                     <p class="player_card_username">{{player.username}}</p>
                 } @else {
                     <p class="player_card_chosen"></p>
@@ -84,7 +84,7 @@
         } @else if (player.score !== null) {
             <div class="player">
                 @if (revealCards) {
-                    <p class="player_card_card">{{player.score}}</p>
+                    <p class="player_card value">{{player.score}}</p>
                     <p class="player_card_username">{{player.username}}</p>
                 } @else {
                     <p class="player_card_chosen"></p>
@@ -103,13 +103,40 @@
     <div class="board_table">
         <div class="board_table_inner">
             <div class="board_table_center">
-                
+                <div [class.hidden]="revealCards">
+                    @if (canRevealCards) {
+                        <app-button 
+                        buttonClass="button secondary_button"
+                        buttonText="Revelar cartas"
+                        (buttonClicked)="revealCardsEvent()"/>
+                    }
+                </div>
             </div>
         </div>
     </div>
     
     @if (!isSpectator) {
-        <app-card /> 
+        <div [class.hidden]="revealCards">
+            <app-card /> 
+        </div>
+        @if(revealCards) {
+            <div class="cards_revealed">
+                @for (card of votes | keyvalue; track $index) {
+                    <div class="cards_count">
+                        <p class="card">{{card.key}}</p>
+                        @if (card.value == 1) {
+                            <p class="value">{{card.value}} Voto</p>
+                        } @else {
+                            <p class="value">{{card.value}} Votos</p>
+                        }
+                    </div>
+                }
+            </div>
+            <div class="cards_average">
+                <p class="value">Promedio: </p>
+                <p class="value bold">{{average}}</p>
+            </div>
+        }
     }
     
 </main>

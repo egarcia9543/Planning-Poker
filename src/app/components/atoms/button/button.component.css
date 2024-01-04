@@ -11,7 +11,8 @@
   color: #380971;
 }
 
-.primary_button:hover {
+.primary_button:hover,
+.secondary_button {
   background-color: #6429cd;
   color: #fff;
   cursor: pointer;

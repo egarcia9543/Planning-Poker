@@ -88,7 +88,8 @@
     transform: translate(-50%, -50%);
 }
 
-.player {
+.player,
+.cards_count {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -103,6 +104,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.value {
+    color: #fff;
+    font-weight: 100;
 }
 
 .player_card_username {
@@ -130,6 +136,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    animation: fadeIn 0.5s ease-in-out;
 }
 
 .card_row {
@@ -139,4 +146,66 @@
     position: absolute;
     bottom: 0;
     width: 100%;
+}
+
+.hidden {
+    animation: fadeOut 1.5s ease-in-out;
+    animation-fill-mode: forwards;
+}
+
+.cards_revealed {
+    animation: fadeIn 2.5s ease-in-out;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    position: absolute;
+    bottom: 1%;
+    width: 40%;
+}
+
+.card {
+    border: #985acd solid 0.1rem;
+    border-radius: 0.5rem;
+    width: 3rem;
+    height: 5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+}
+
+.cards_average {
+    animation: fadeIn 2.5s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: 4%;
+    left: 70%;
+}
+
+.bold {
+    animation: fadeIn 2.5s ease-in-out;
+    font-weight: 600;
+    font-size: 2rem;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        display: none;
+    }
 }
