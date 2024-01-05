@@ -8,11 +8,13 @@ import { Player } from '../../interfaces/players.interface';
 import { ButtonComponent } from '../../components/atoms/button/button.component';
 import { CommonModule } from '@angular/common';
 import { CardComponent } from '../../components/molecules/card/card.component';
+import { LogoComponent } from '../../components/atoms/logo/logo.component';
+import { TitleComponent } from '../../components/atoms/title/title.component';
 
 @Component({
   selector: 'app-gameboard',
   standalone: true,
-  imports: [SignupFormComponent, NavbarComponent, CardComponent, ButtonComponent, CommonModule],
+  imports: [SignupFormComponent, NavbarComponent, CardComponent, ButtonComponent, CommonModule, LogoComponent, TitleComponent],
   templateUrl: './gameboard.component.html',
   styleUrl: './gameboard.component.css'
 })
@@ -21,6 +23,8 @@ export class GameboardComponent {
   isSpectator: boolean = false;
   revealCards: boolean = false;
   canRevealCards: boolean = false;
+  isInviteModalOpen: boolean = false;
+  inviteLink: string = '';
   boardName = signal<string>('');
   players: Player[] = [];
   selectedCards: (number | string)[] = [];
@@ -36,6 +40,7 @@ export class GameboardComponent {
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
       this.boardName.set(params['id']);
+      this.inviteLink = `localhost:4200/game/${params['id']}`;
     })
 
     this.playerService.players.subscribe(players => {
@@ -83,5 +88,15 @@ export class GameboardComponent {
     } else {
       alert('No eres admin');
     }
+  }
+
+  copyToClipboard() {
+    const link = document.getElementById('invite-link') as HTMLInputElement;
+    link.select();
+    document.execCommand('copy');
+  }
+  
+  toggleInviteModal() {
+    this.isInviteModalOpen = !this.isInviteModalOpen;
   }
 }
