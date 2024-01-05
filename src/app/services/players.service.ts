@@ -1,7 +1,6 @@
 import { Injectable, computed, signal } from '@angular/core';
 import { Player } from '../interfaces/players.interface';
 import { BehaviorSubject } from 'rxjs';
-import { CardsService } from './cards.service';
 
 @Injectable({
   providedIn: 'root'

@@ -12,17 +12,11 @@
                         {{card}}
                     </p>
                 } @else {
-                    @if (isCardChosen) {
-                        <p class="card">
-                           {{card}}
-                        </p>
-                    } @else {
-                        <p class="card" (click)="onCardClicked(card)">
+                        <p class="card" [class.sinclick]="isCardChosen" (click)="onCardClicked(card)">
                             {{card}}
                         </p>
                     }
                 }
-            }
         }
     </div>
 </div>

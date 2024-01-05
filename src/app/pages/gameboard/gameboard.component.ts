@@ -58,10 +58,6 @@ export class GameboardComponent {
     this.cardsService.averageCards.subscribe(average => {
       this.average = average;
     });
-
-    // this.cardsService.countSelectedCards.subscribe(countCards => {
-    //   console.log('dssd' + countCards);
-    // })
   }
 
   revealCardsEvent() {
@@ -84,5 +80,15 @@ export class GameboardComponent {
         }
       })
     })
+  }
+
+  resetGame() {
+    if (JSON.parse(sessionStorage.getItem('sessionPlayer') || '{}').role === 'admin') {
+      this.cardsService.resetGame();
+      this.revealCards = false;
+      this.votes = {};
+    } else {
+      alert('No eres admin');
+    }
   }
 }
