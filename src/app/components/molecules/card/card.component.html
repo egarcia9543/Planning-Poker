@@ -12,9 +12,15 @@
                         {{card}}
                     </p>
                 } @else {
-                        <p class="card" [class.sinclick]="isCardChosen" (click)="onCardClicked(card)">
+                     @if (isCardChosen) {
+                        <p class="card" [class.not_allowed]="isCardChosen">
                             {{card}}
                         </p>
+                     } @else {
+                        <p class="card" (click)="onCardClicked(card)">
+                            {{card}}
+                        </p>
+                     }
                     }
                 }
         }

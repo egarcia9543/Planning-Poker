@@ -1,11 +1,43 @@
 <header>
-    <app-navbar 
-    location="navbar_board"
-    [title]="boardName()"/>
+    <nav class="navbar_board">
+        <a href="/">
+        <app-logo
+        logoUrl="assets/images/pragma.png"
+        logoAlt="Logo navbar"
+        logoClass="nav_logo"
+        logoWidth="100"
+        logoHeight="100"/>
+        </a>
+        <app-title
+        [text]="boardName()"/>
+        <div>
+            <app-button 
+            buttonText="Invitar jugadores"
+            buttonClass="button nav_button"
+            (buttonClicked)="toggleInviteModal()"
+            />
+        </div>
+      </nav>
 </header>
 <main class="board">
     <div [class.board_signup]="!isGameReady">
         <app-signup-form />
+    </div>
+
+    <div [class.invite_modal]="isInviteModalOpen" [class.modal_closed]="!isInviteModalOpen">
+        <div class="modal">
+            <div class="modal_header">
+                <p>Invitar jugadores</p>
+                <span class="close_icon" (click)="toggleInviteModal()">&#x2716;</span>
+            </div>
+            <div class="modal_body">
+                <input type="text" [value]="inviteLink" class="invite_link" id="invite-link" readonly>
+                <app-button 
+                buttonClass="button primary_button"
+                buttonText="Copiar link"
+                (buttonClicked)="copyToClipboard()"/>
+            </div>
+        </div>
     </div>
 
     <div class="board_top">
