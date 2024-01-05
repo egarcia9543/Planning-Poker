@@ -58,28 +58,20 @@ export class GameboardComponent {
     this.cardsService.averageCards.subscribe(average => {
       this.average = average;
     });
+
+    this.cardsService.votes.subscribe(votes => {
+      this.votes = votes;
+    });
   }
 
   revealCardsEvent() {
     if (JSON.parse(sessionStorage.getItem('sessionPlayer') || '{}').role === 'admin') {
       this.revealCards = !this.revealCards;
-      this.countVotes();
       this.cardsService.calcAverage();
+      this.cardsService.countCardVotes();
     } else {
       alert('No eres admin');
     }
-  }
-
-  countVotes() {
-    this.cardsService.selectedCards.forEach(card => {
-      card.forEach((value: number | string) => {
-        if (this.votes[value]) {
-          this.votes[value] += 1;
-        } else {
-          this.votes[value] = 1;
-        }
-      })
-    })
   }
 
   resetGame() {
@@ -87,6 +79,7 @@ export class GameboardComponent {
       this.cardsService.resetGame();
       this.revealCards = false;
       this.votes = {};
+      this.canRevealCards = false;
     } else {
       alert('No eres admin');
     }

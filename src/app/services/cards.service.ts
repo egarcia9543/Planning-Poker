@@ -17,6 +17,9 @@ export class CardsService {
   private chosenCard: number | string | null = null;
   private _chosenCard: BehaviorSubject<number | string | null> = new BehaviorSubject<number | string | null>(null);
 
+  private countVotes: {[key: string]: number} = {};
+  private _countVotes: BehaviorSubject<{[key: string]: number}> = new BehaviorSubject<{[key: string]: number}>({});
+
   get cardChosen() {
     return this._chosenCard.asObservable();
   }
@@ -27,6 +30,10 @@ export class CardsService {
 
   get averageCards() {
     return this._average.asObservable();
+  }
+
+  get votes() {
+    return this._countVotes.asObservable();
   }
 
   addCard(card: number | string) {
@@ -50,6 +57,17 @@ export class CardsService {
     this.average = Number((sum / this.chosenCards.length).toFixed(2));
     this._average.next(this.average);
   }
+
+  countCardVotes() {
+    this.chosenCards.forEach(card => {
+      if (this.countVotes[card]) {
+        this.countVotes[card] += 1;
+      } else {
+        this.countVotes[card] = 1;
+      }
+    })
+    this._countVotes.next(this.countVotes);
+  }
   
   resetGame() {
     this.chosenCards = [];
@@ -62,5 +80,7 @@ export class CardsService {
       })
     })
     this._chosenCard.next(null);
+    this.countVotes = {};
+    this._countVotes.next(this.countVotes);
   }
 }
