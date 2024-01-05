@@ -111,6 +111,13 @@
                         (buttonClicked)="revealCardsEvent()"/>
                     }
                 </div>
+                <div [class.hidden]="!revealCards" [class.show]="average !== 0">
+                    <app-button 
+                    buttonClass="button secondary_button"
+                    buttonText="Volver a jugar"
+                    (buttonClicked)="resetGame()"
+                    />
+                </div>
             </div>
         </div>
     </div>
@@ -119,24 +126,24 @@
         <div [class.hidden]="revealCards">
             <app-card /> 
         </div>
-        @if(revealCards) {
-            <div class="cards_revealed">
-                @for (card of votes | keyvalue; track $index) {
-                    <div class="cards_count">
-                        <p class="card">{{card.key}}</p>
-                        @if (card.value == 1) {
-                            <p class="value">{{card.value}} Voto</p>
-                        } @else {
-                            <p class="value">{{card.value}} Votos</p>
-                        }
-                    </div>
-                }
-            </div>
-            <div class="cards_average">
-                <p class="value">Promedio: </p>
-                <p class="value bold">{{average}}</p>
-            </div>
-        }
+    }
+    @if(revealCards) {
+        <div class="cards_revealed">
+            @for (card of votes | keyvalue; track $index) {
+                <div class="cards_count">
+                    <p class="card">{{card.key}}</p>
+                    @if (card.value == 1) {
+                        <p class="value">{{card.value}} Voto</p>
+                    } @else {
+                        <p class="value">{{card.value}} Votos</p>
+                    }
+                </div>
+            }
+        </div>
+        <div class="cards_average">
+            <p class="value">Promedio: </p>
+            <p class="value bold">{{average}}</p>
+        </div>
     }
     
 </main>

@@ -23,9 +23,12 @@ export class CardComponent {
       this.players = players;
     })
 
-    this.cardsService.selectedCards.subscribe(cards => {
-      if (cards.length > 0) {
-        
+    this.cardsService.cardChosen.subscribe(card => {
+      this.chosenCard = card;
+      if (card !== null) {
+        this.isCardChosen = true;
+      } else {
+        this.isCardChosen = false;
       }
     })
   }

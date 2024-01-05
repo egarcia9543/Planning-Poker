@@ -149,8 +149,14 @@
 }
 
 .hidden {
-    animation: fadeOut 1.5s ease-in-out;
+    animation: fadeOut 1.0s ease-in-out;
     animation-fill-mode: forwards;
+}
+
+.show {
+    animation: fadeIn 1.5s ease-in-out;
+    animation-fill-mode: forwards;
+    position: absolute;
 }
 
 .cards_revealed {
