@@ -22,6 +22,9 @@ export class PlayersService {
 
   private isGameReadySubject = new BehaviorSubject<boolean>(false);
   isGameReady$ = this.isGameReadySubject.asObservable();
+
+  private sessionPlayer: BehaviorSubject<Player> = new BehaviorSubject<Player>(JSON.parse(sessionStorage.getItem('sessionPlayer') || '{}'));
+  private _sessionPlayer = this.sessionPlayer.asObservable();
   
   constructor() { }
 
@@ -41,6 +44,10 @@ export class PlayersService {
     return this._playerType.asObservable();
   }
 
+  get playerInSession() {
+    return this._sessionPlayer;
+  }
+
   registerPlayer(player: Player) {
     this.listOfPlayers.push(player);
     this._players.next(this.listOfPlayers);
@@ -49,6 +56,9 @@ export class PlayersService {
       this.isPlayerSpectator = true;
       this._playerType.next('spectator');
     }
+
+    this.sessionPlayer.next(player);
+    sessionStorage.setItem('sessionPlayer', JSON.stringify(player));
     
     this.setGameReady(true);
   }
