@@ -10,7 +10,10 @@
         </a>
         <app-title
         [text]="boardName()"/>
-        <div>
+        <div class="navbar_user">
+            <p class="user_initials">
+                {{sessionPlayer.initials}}
+            </p>
             <app-button 
             buttonText="Invitar jugadores"
             buttonClass="button nav_button"

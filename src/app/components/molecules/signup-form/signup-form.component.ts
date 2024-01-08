@@ -38,11 +38,5 @@ export class SignupFormComponent {
       initials: this.signupForm.value.username?.substring(0,2).toUpperCase() ?? '',
       score: null
     });
-    sessionStorage.setItem('sessionPlayer', JSON.stringify({
-      username: this.signupForm.value.username ?? '',
-      playerType: this.signupForm.value.playerType ?? '',
-      role: 'admin',
-      initials: this.signupForm.value.username?.substring(0,2).toUpperCase() ?? '',
-  }));
   }
 }

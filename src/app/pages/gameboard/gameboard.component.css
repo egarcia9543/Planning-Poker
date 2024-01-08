@@ -7,6 +7,15 @@
     padding-right: 2rem;
   }
 
+.navbar_user {
+    display: flex;
+    align-items: center;
+}
+
+.user_initials {
+    margin-right: 1rem;
+}
+
 .board {
     height: 100%;
     width: 100%;
@@ -126,12 +135,13 @@
     font-weight: 100;
 }
 
-.player_card_spectator {
+.player_card_spectator,
+.user_initials {
     background-color: #bdbdff;
     color: #270953;
     font-weight: 600;
-    width: 3rem;
-    height: 3rem;
+    width: 2.5rem;
+    height: 2.5rem;
     border-radius: 50%;
     display: flex;
     justify-content: center;

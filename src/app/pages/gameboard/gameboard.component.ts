@@ -30,6 +30,7 @@ export class GameboardComponent {
   selectedCards: (number | string)[] = [];
   votes: {[key: string]: number} = {};
   average: number = 0;
+  sessionPlayer: Player = {username: '', playerType: '', role: '', initials: '', score: null}
 
   constructor(private route: ActivatedRoute, private playerService: PlayersService, private cardsService: CardsService) {
     this.playerService.isGameReady$.subscribe((value: boolean) => {
@@ -45,6 +46,11 @@ export class GameboardComponent {
 
     this.playerService.players.subscribe(players => {
       this.players = players;
+    });
+
+    this.playerService.playerInSession.subscribe(player => {
+      console.log(player)
+      this.sessionPlayer = player;
     });
 
     this.playerService.playerType.subscribe(playerType => {
