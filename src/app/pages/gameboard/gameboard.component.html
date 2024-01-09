@@ -11,7 +11,7 @@
         <app-title
         [text]="boardName()"/>
         <div class="navbar_user">
-            <p class="user_initials">
+            <p class="user_initials" (click)="changePlayerType(sessionPlayer)">
                 {{sessionPlayer.initials}}
             </p>
             <app-button 

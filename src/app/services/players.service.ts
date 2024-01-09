@@ -63,4 +63,13 @@ export class PlayersService {
     this.setGameReady(true);
   }
 
+  setPlayerType(playerType: string) {
+    this._playerType.next(playerType);
+    this.isPlayerSpectator = playerType === 'spectator' ? true : false;
+    this.sessionPlayer.next({...this.sessionPlayer.getValue(), playerType: playerType});
+    this.players.subscribe(players => {
+      const playerIndex = players.findIndex(player => player.username === this.sessionPlayer.getValue().username);
+      players[playerIndex].playerType = playerType;
+    });
+  }
 }

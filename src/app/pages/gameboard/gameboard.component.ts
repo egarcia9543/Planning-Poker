@@ -49,8 +49,8 @@ export class GameboardComponent {
     });
 
     this.playerService.playerInSession.subscribe(player => {
-      console.log(player)
       this.sessionPlayer = player;
+      sessionStorage.setItem('sessionPlayer', JSON.stringify(player));
     });
 
     this.playerService.playerType.subscribe(playerType => {
@@ -75,6 +75,21 @@ export class GameboardComponent {
     });
   }
 
+  changePlayerType(player: Player) {
+    if (this.selectedCards.length > 0) {
+      alert('Ya has votado, no puedes cambiar de rol');
+      return;
+    } else {
+      if(player.playerType === 'player') {
+        this.playerService.setPlayerType('spectator');
+        this.isSpectator = true;
+      } else {
+        this.playerService.setPlayerType('player');
+        this.isSpectator = false;
+      }
+    }
+  }
+  
   revealCardsEvent() {
     if (JSON.parse(sessionStorage.getItem('sessionPlayer') || '{}').role === 'admin') {
       this.revealCards = !this.revealCards;
@@ -91,6 +106,7 @@ export class GameboardComponent {
       this.revealCards = false;
       this.votes = {};
       this.canRevealCards = false;
+      this.selectedCards = [];
     } else {
       alert('No eres admin');
     }
