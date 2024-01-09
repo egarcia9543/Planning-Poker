@@ -39,7 +39,6 @@ export class CardComponent {
 
     this.playersService.playerInSession.subscribe(player => {
       this.sessionPlayer = player;
-      console.log(player);
     });
   }
 

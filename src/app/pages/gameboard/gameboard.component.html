@@ -138,21 +138,23 @@
     <div class="board_table">
         <div class="board_table_inner">
             <div class="board_table_center">
-                <div [class.hidden]="revealCards">
-                    @if (canRevealCards) {
+                @if(sessionPlayer.role === 'admin') {
+                    <div [class.hidden]="revealCards">
+                        @if (canRevealCards) {
+                            <app-button 
+                            buttonClass="button secondary_button"
+                            buttonText="Revelar cartas"
+                            (buttonClicked)="revealCardsEvent()"/>
+                        }
+                    </div>
+                    <div [class.hidden]="!revealCards" [class.show]="average !== 0">
                         <app-button 
                         buttonClass="button secondary_button"
-                        buttonText="Revelar cartas"
-                        (buttonClicked)="revealCardsEvent()"/>
-                    }
-                </div>
-                <div [class.hidden]="!revealCards" [class.show]="average !== 0">
-                    <app-button 
-                    buttonClass="button secondary_button"
-                    buttonText="Volver a jugar"
-                    (buttonClicked)="resetGame()"
-                    />
-                </div>
+                        buttonText="Volver a jugar"
+                        (buttonClicked)="resetGame()"
+                        />
+                    </div>
+                }
             </div>
         </div>
     </div>

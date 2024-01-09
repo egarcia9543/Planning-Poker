@@ -36,6 +36,16 @@ export class PlayersService {
     this.isGameReadySubject.next(isGameReady);
   }
 
+  setPlayerRole() {
+    let randomNum = Math.floor(Math.random() * 2);
+    if (randomNum === 0) {
+      this.listOfPlayers[0].role = 'admin';
+      console.log('En esta partida eres un jugador');
+    } else {
+      console.log('En esta partida eres el administrador');
+    }
+  }
+
   get players() {
     return this._players.asObservable();
   }
@@ -49,6 +59,11 @@ export class PlayersService {
   }
 
   registerPlayer(player: Player) {
+    if (this.listOfPlayers[0].role === 'admin') {
+      player.role = 'player';
+    } else {
+      player.role = 'admin';
+    }
     this.listOfPlayers.push(player);
     this._players.next(this.listOfPlayers);
 

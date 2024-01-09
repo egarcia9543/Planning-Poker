@@ -45,6 +45,7 @@ export class GameboardComponent {
     })
 
     this.playerService.players.subscribe(players => {
+      console.log(players);
       this.players = players;
     });
 
@@ -76,6 +77,8 @@ export class GameboardComponent {
     this.cardsService.votes.subscribe(votes => {
       this.votes = votes;
     });
+
+    this.playerService.setPlayerRole();
   }
 
   changePlayerType(player: Player) {
