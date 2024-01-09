@@ -63,6 +63,9 @@ export class GameboardComponent {
       if (cards.length > 0) {
         this.selectedCards = cards;
         this.canRevealCards = true;
+      } else {
+        this.selectedCards = [];
+        this.canRevealCards = false;
       }
     });
 

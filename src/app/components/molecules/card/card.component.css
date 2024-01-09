@@ -57,3 +57,7 @@
 .card.not_allowed {
     cursor: not-allowed;
 }
+
+.toggle_cards {
+    cursor: pointer;
+}
