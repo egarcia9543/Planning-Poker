@@ -87,4 +87,15 @@ export class PlayersService {
       players[playerIndex].playerType = playerType;
     });
   }
+
+  changeRoles(index: number) {
+    const prevAdmin = this.listOfPlayers.find(player => player.role === 'admin');
+    const newAdmin = this.listOfPlayers[index];
+    if (prevAdmin) {
+      prevAdmin.role = 'player';
+      this.sessionPlayer.next(prevAdmin);
+    }
+    newAdmin.role = 'admin';
+    this._players.next(this.listOfPlayers);
+  }
 }

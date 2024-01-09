@@ -40,6 +40,7 @@ export class GameboardComponent {
 
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
+      this.boardName.set(params['id']);
       this.inviteLink = `${window.location.href}`;
     })
 
@@ -62,10 +63,6 @@ export class GameboardComponent {
       if (cards.length > 0) {
         this.selectedCards = cards;
         this.canRevealCards = true;
-        if (this.sessionPlayer.role === 'player') {
-          this.autoRevealCards();
-          this.autoResetGame();
-        }
       } else {
         this.selectedCards = [];
         this.canRevealCards = false;
@@ -104,18 +101,6 @@ export class GameboardComponent {
       this.cardsService.countCardVotes();
   }
 
-  autoRevealCards() {
-    setTimeout(() => {
-      this.revealCardsEvent();
-    }, 5000);
-  }
-
-  autoResetGame() {
-    setTimeout(() => {
-      this.resetGame();
-    }, 10000);
-  }
-
   resetGame() {
       this.cardsService.resetGame();
       this.revealCards = false;
@@ -132,5 +117,10 @@ export class GameboardComponent {
   
   toggleInviteModal() {
     this.isInviteModalOpen = !this.isInviteModalOpen;
+  }
+
+  makeAdmin(playerData: Player) {
+    const playerIndex = this.players.findIndex(player => player.username === playerData.username);
+    this.playerService.changeRoles(playerIndex);
   }
 }

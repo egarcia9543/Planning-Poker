@@ -60,7 +60,11 @@
         } @else {
             <div class="player">
                 <p class="player_card"></p>
-                <p class="player_card_username">{{player.username}}</p>
+                @if (sessionPlayer.role === 'admin' && !revealCards) {
+                    <p class="player_card_username clickable" (click)="makeAdmin(player)" >{{player.username}}</p>
+                }@else {
+                    <p class="player_card_username">{{player.username}}</p>
+                }
             </div>
         }
     }
@@ -83,7 +87,11 @@
         } @else {
             <div class="player">
                 <p class="player_card"></p>
-                <p class="player_card_username">{{player.username}}</p>
+                @if (sessionPlayer.role === 'admin' && !revealCards) {
+                    <p class="player_card_username clickable" (click)="makeAdmin(player)" >{{player.username}}</p>
+                }@else {
+                    <p class="player_card_username">{{player.username}}</p>
+                }
             </div>
         }
     }
@@ -106,7 +114,11 @@
         } @else {
             <div class="player">
                 <p class="player_card"></p>
-                <p class="player_card_username">{{player.username}}</p>
+                @if (sessionPlayer.role === 'admin' && !revealCards) {
+                    <p class="player_card_username clickable" (click)="makeAdmin(player)" >{{player.username}}</p>
+                }@else {
+                    <p class="player_card_username">{{player.username}}</p>
+                }
             </div>
         }
     }
@@ -129,7 +141,11 @@
         } @else {
             <div class="player">
                 <p class="player_card"></p>
-                <p class="player_card_username">{{player.username}}</p>
+                @if (sessionPlayer.role === 'admin' && !revealCards) {
+                    <p class="player_card_username clickable" (click)="makeAdmin(player)" >{{player.username}}</p>
+                }@else {
+                    <p class="player_card_username">{{player.username}}</p>
+                }
             </div>
         }
     }
