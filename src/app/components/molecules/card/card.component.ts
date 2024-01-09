@@ -45,6 +45,7 @@ export class CardComponent {
   onCardClicked(card: number | string) {
     this.cardsService.addCard(card);
     this.players[7].score = card;
+    this.sessionPlayer.score = card;
     this.players.forEach(player => {
       if (player.playerType === 'player' && player.score === null) {
         player.score = this.cards[Math.floor(Math.random() * this.cards.length)];
