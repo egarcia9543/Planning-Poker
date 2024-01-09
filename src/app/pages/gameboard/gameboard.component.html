@@ -154,6 +154,8 @@
                         (buttonClicked)="resetGame()"
                         />
                     </div>
+                }@else {
+                    <p [class.hidden]="!canRevealCards" class="board_label">Contando votos</p>
                 }
             </div>
         </div>
