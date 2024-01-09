@@ -6,6 +6,9 @@
                 No hay cartas registradas
             </p>
         } @else {
+            @if (sessionPlayer.role === 'admin') {
+                <p class="toggle_cards" (click)="changeCards()">🔁</p>
+            }
             @for (card of cards; track card; let i = $index) {
                 @if (card == chosenCard) {
                     <p class="card chosen">

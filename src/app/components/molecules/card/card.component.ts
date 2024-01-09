@@ -15,10 +15,15 @@ export class CardComponent {
   players: Player[] = [];
   chosenCard: number | string | null = null;
   isCardChosen: boolean = false;
+  cardsOptions: (number | string)[][] = [
+    [0, 1, 3, 5, 8, 13, 21, 34, 55, 89, '?', '☕'],
+    [0, 1, 2, 4, 8, 16, 32, 64, 128, '?', '☕'],
+  ];
+  sessionPlayer: Player = {username: '', playerType: '', role: '', initials: '', score: null}
   constructor(private cardsService: CardsService, private playersService: PlayersService) { }
 
   ngOnInit() {
-    this.cards = [0, 1, 3, 5, 8, 13, 21, 34, 55, 89, '?', '☕'];
+    this.cards = this.cardsOptions[0];
     this.playersService.players.subscribe(players => {
       this.players = players;
     })
@@ -31,6 +36,11 @@ export class CardComponent {
         this.isCardChosen = false;
       }
     })
+
+    this.playersService.playerInSession.subscribe(player => {
+      this.sessionPlayer = player;
+      console.log(player);
+    });
   }
 
   onCardClicked(card: number | string) {
@@ -44,5 +54,16 @@ export class CardComponent {
     })
     this.chosenCard = card;
     this.isCardChosen = true;
+  }
+
+  changeCards() {
+    if (this.chosenCard !== null) {
+      this.cardsService.resetGame();
+    }
+    if (this.cards === this.cardsOptions[0]) {
+      this.cards = this.cardsOptions[1];
+    } else {
+      this.cards = this.cardsOptions[0];
+    }
   }
 }
