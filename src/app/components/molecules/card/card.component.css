@@ -18,9 +18,10 @@
 
 .card_row {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-evenly;
     align-items: center;
-    width: 60%;
+    width: 70%;
 }
 
 .card_error {

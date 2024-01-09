@@ -133,6 +133,11 @@
     font-weight: 100;
 }
 
+.clickable:hover {
+    color: #bb65ff;
+    cursor: pointer;
+}
+
 .player_card_spectator,
 .user_initials {
     background-color: #bdbdff;
