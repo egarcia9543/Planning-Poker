@@ -34,7 +34,7 @@ export class SignupFormComponent {
     this.playerService.registerPlayer({
       username: this.signupForm.value.username ?? '',
       playerType: this.signupForm.value.playerType ?? '',
-      role: 'admin',
+      role: '',
       initials: this.signupForm.value.username?.substring(0,2).toUpperCase() ?? '',
       score: null
     });
