@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { CardsService } from '../../../services/cards.service';
 import { PlayersService } from '../../../services/players.service';
 import { Player } from '../../../interfaces/players.interface';

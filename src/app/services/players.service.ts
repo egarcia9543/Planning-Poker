@@ -1,4 +1,4 @@
-import { Injectable, computed, signal } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Player } from '../interfaces/players.interface';
 import { BehaviorSubject } from 'rxjs';
 
@@ -21,19 +21,15 @@ export class PlayersService {
   private _playerType: BehaviorSubject<string> = new BehaviorSubject<string>('player');
 
   private isGameReadySubject = new BehaviorSubject<boolean>(false);
-  isGameReady$ = this.isGameReadySubject.asObservable();
+  private _isGameReady: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-  private sessionPlayer: BehaviorSubject<Player> = new BehaviorSubject<Player>(JSON.parse(sessionStorage.getItem('sessionPlayer') || '{}'));
+  private sessionPlayer: BehaviorSubject<Player> = new BehaviorSubject<Player>(JSON.parse(sessionStorage.getItem('sessionPlayer') ?? '{}'));
   private _sessionPlayer = this.sessionPlayer.asObservable();
   
-  constructor() { }
-
-  isGameReady(): boolean {
-    return this.isGameReadySubject.getValue();
-  }
 
   setGameReady(isGameReady: boolean) {
     this.isGameReadySubject.next(isGameReady);
+    this._isGameReady.next(isGameReady);
   }
 
   setPlayerRole() {
@@ -44,6 +40,10 @@ export class PlayersService {
     } else {
       console.log('En esta partida eres el administrador');
     }
+  }
+
+  get gameStatus() {
+    return this._isGameReady.asObservable();
   }
 
   get players() {
@@ -80,7 +80,7 @@ export class PlayersService {
 
   setPlayerType(playerType: string) {
     this._playerType.next(playerType);
-    this.isPlayerSpectator = playerType === 'spectator' ? true : false;
+    this.isPlayerSpectator = playerType === 'spectator';
     this.sessionPlayer.next({...this.sessionPlayer.getValue(), playerType: playerType});
     this.players.subscribe(players => {
       const playerIndex = players.findIndex(player => player.username === this.sessionPlayer.getValue().username);

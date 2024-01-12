@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { LogoComponent } from '../../components/atoms/logo/logo.component';
 import { NavbarComponent } from '../../components/organisms/navbar/navbar.component';
 import { CreateGameFormComponent } from '../../components/molecules/create-game-form/create-game-form.component';

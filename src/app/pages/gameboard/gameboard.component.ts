@@ -1,5 +1,5 @@
 import { CardsService } from './../../services/cards.service';
-import { Component, Input, inject, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { SignupFormComponent } from '../../components/molecules/signup-form/signup-form.component';
 import { PlayersService } from '../../services/players.service';
 import { NavbarComponent } from '../../components/organisms/navbar/navbar.component';
@@ -33,16 +33,16 @@ export class GameboardComponent {
   sessionPlayer: Player = {username: '', playerType: '', role: '', initials: '', score: null}
 
   constructor(private route: ActivatedRoute, private playerService: PlayersService, private cardsService: CardsService) {
-    this.playerService.isGameReady$.subscribe((value: boolean) => {
-      this.isGameReady = value;
-    })
   }
-
   ngOnInit() {
+    this.playerService.gameStatus.subscribe((value: boolean) => {
+      this.isGameReady = value;
+    });
+
     this.route.params.subscribe((params: Params) => {
       this.boardName.set(params['id']);
       this.inviteLink = `${window.location.href}`;
-    })
+    });
 
     this.playerService.players.subscribe(players => {
       this.players = players;
@@ -83,16 +83,13 @@ export class GameboardComponent {
   changePlayerType(player: Player) {
     if (this.selectedCards.length > 0) {
       alert('Ya has votado, no puedes cambiar de rol');
-      return;
-    } else {
-      if(player.playerType === 'player') {
+    } else if (player.playerType === 'player') {
         this.playerService.setPlayerType('spectator');
         this.isSpectator = true;
       } else {
         this.playerService.setPlayerType('player');
         this.isSpectator = false;
       }
-    }
   }
   
   revealCardsEvent() {
@@ -112,7 +109,7 @@ export class GameboardComponent {
   copyToClipboard() {
     const link = document.getElementById('invite-link') as HTMLInputElement;
     link.select();
-    document.execCommand('copy');
+    navigator.clipboard.writeText(link.value);
   }
   
   toggleInviteModal() {

@@ -1,5 +1,5 @@
 import { PlayersService } from './../../../services/players.service';
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ButtonComponent } from '../../atoms/button/button.component';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -12,7 +12,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 })
 export class SignupFormComponent {
   constructor(private fb: FormBuilder) {
-    this.playerService.isGameReady$.subscribe((value: boolean) => {
+    this.playerService.gameStatus.subscribe((value: boolean) => {
       this.isGameReady = value;
     })
   }

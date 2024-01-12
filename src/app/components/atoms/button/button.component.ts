@@ -13,8 +13,6 @@ export class ButtonComponent {
   @Input() buttonDisabled: boolean = false;
   @Output() buttonClicked = new EventEmitter();
 
-  constructor() { }
-
   buttonClickedEvent(event: any) {
     this.buttonClicked.emit();
   }
