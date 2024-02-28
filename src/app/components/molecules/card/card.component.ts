@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CardsService } from '../../../services/cards.service';
 import { PlayersService } from '../../../services/players.service';
-import { Player } from '../../../interfaces/players.interface';
+import { Cards } from '../../../interfaces/cards.interface';
 
 @Component({
   selector: 'app-card',
@@ -11,59 +11,30 @@ import { Player } from '../../../interfaces/players.interface';
   styleUrl: './card.component.css'
 })
 export class CardComponent {
-  cards: (number | string)[] = [];
-  players: Player[] = [];
-  chosenCard: number | string | null = null;
+  public cards: Cards[] = [];
+
+
   isCardChosen: boolean = false;
-  cardsOptions: (number | string)[][] = [
-    [0, 1, 3, 5, 8, 13, 21, 34, 55, 89, '?', '☕'],
-    [0, 1, 2, 4, 8, 16, 32, 64, 128, '?', '☕'],
-  ];
-  sessionPlayer: Player = {username: '', playerType: '', role: '', initials: '', score: null}
+  sessionPlayerId: number = 0;
+
   constructor(private cardsService: CardsService, private playersService: PlayersService) { }
 
   ngOnInit() {
-    this.cards = this.cardsOptions[0];
-    this.playersService.players.subscribe(players => {
-      this.players = players;
-    })
+    this.cardsService.getCards().subscribe((cards: Cards[]) => {
+      this.cards = cards;
+    });
 
-    this.cardsService.cardChosen.subscribe(card => {
-      this.chosenCard = card;
-      if (card !== null) {
-        this.isCardChosen = true;
-      } else {
-        this.isCardChosen = false;
-      }
-    })
+  }
 
-    this.playersService.playerInSession.subscribe(player => {
-      this.sessionPlayer = player;
+  onCardClicked(card: number) {
+    const player = JSON.parse(localStorage.getItem('sessionPlayer')!);
+    const gameId = JSON.parse(localStorage.getItem('gameData')!).id;
+    this.cardsService.selectCard(player, gameId, card).subscribe((res: any) => {
+      console.log(res);
     });
   }
 
-  onCardClicked(card: number | string) {
-    this.cardsService.addCard(card);
-    this.players[7].score = card;
-    this.sessionPlayer.score = card;
-    this.players.forEach(player => {
-      if (player.playerType === 'player' && player.score === null) {
-        player.score = this.cards[Math.floor(Math.random() * this.cards.length)];
-        this.cardsService.addCard(player.score);
-      }
-    })
-    this.chosenCard = card;
-    this.isCardChosen = true;
-  }
-
   changeCards() {
-    if (this.chosenCard !== null) {
-      this.cardsService.resetGame();
-    }
-    if (this.cards === this.cardsOptions[0]) {
-      this.cards = this.cardsOptions[1];
-    } else {
-      this.cards = this.cardsOptions[0];
-    }
+
   }
 }

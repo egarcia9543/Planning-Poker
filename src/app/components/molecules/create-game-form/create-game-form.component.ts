@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ButtonComponent } from '../../atoms/button/button.component';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { GameService } from '../../../services/game.service';
 
 @Component({
   selector: 'app-create-game-form',
@@ -11,7 +12,7 @@ import { Router } from '@angular/router';
   styleUrl: './create-game-form.component.css'
 })
 export class CreateGameFormComponent {
-  constructor(private router: Router) {}
+  constructor(private router: Router, private gameService: GameService) {}
 
   checkForm = new FormControl('', {
     validators: [
@@ -22,9 +23,14 @@ export class CreateGameFormComponent {
     ]
   })
 
-  createGame() {
+  createGame(event: Event) {
+    event.preventDefault();
     if (this.checkForm.valid) {
-      this.router.navigateByUrl(`/game/${this.checkForm.value}`);
-    }
-  }
+      this.gameService.createGame(this.checkForm.value!)
+        .subscribe(res => {
+          this.router.navigate([`game/${res.url_key}`]);
+          localStorage.setItem('gameData', JSON.stringify(res));
+        });
+    };
+  };
 }

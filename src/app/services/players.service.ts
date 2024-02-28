@@ -1,101 +1,78 @@
 import { Injectable } from '@angular/core';
-import { Player } from '../interfaces/players.interface';
-import { BehaviorSubject } from 'rxjs';
+import { NewPlayer, PlayersInGame } from '../interfaces/players.interface';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PlayersService {
-  private listOfPlayers: Player[] = [
-    {username: 'Oscar', playerType: 'player', role: 'player', initials: 'OS', score: null},
-    {username: 'Luis', playerType: 'spectator', role: 'player', initials: 'LU', score: null},
-    {username: 'Jorge', playerType: 'player', role: 'player', initials: 'JO', score: null},
-    {username: 'Ricardo', playerType: 'player', role: 'player', initials: 'RI', score: null},
-    {username: 'Alejandro', playerType: 'player', role: 'player', initials: 'AL', score: null},
-    {username: 'Javier', playerType: 'player', role: 'player', initials: 'JA', score: null},
-    {username: 'María', playerType: 'player', role: 'player', initials: 'MA', score: null},
-  ];
-  private _players: BehaviorSubject<Player[]> = new BehaviorSubject<Player[]>([]);
+  private apiUrl: string = environment.baseUrl;
 
   private isPlayerSpectator: boolean = false;
   private _playerType: BehaviorSubject<string> = new BehaviorSubject<string>('player');
 
-  private isGameReadySubject = new BehaviorSubject<boolean>(false);
+  private isGameReady = new BehaviorSubject<boolean>(false);
   private _isGameReady: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-  private sessionPlayer: BehaviorSubject<Player> = new BehaviorSubject<Player>(JSON.parse(sessionStorage.getItem('sessionPlayer') ?? '{}'));
-  private _sessionPlayer = this.sessionPlayer.asObservable();
-  
+  private sessionPlayer = new BehaviorSubject<NewPlayer>({} as NewPlayer);
+  private _sessionPlayer: BehaviorSubject<NewPlayer> = new BehaviorSubject<NewPlayer>({} as NewPlayer);
+
+  private isAdminRegistered: boolean = false;
+  private _isAdminRegistered: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
+  constructor(private http: HttpClient) {};
 
   setGameReady(isGameReady: boolean) {
-    this.isGameReadySubject.next(isGameReady);
+    this.isGameReady.next(isGameReady);
     this._isGameReady.next(isGameReady);
-  }
+  };
 
-  setPlayerRole() {
-    let randomNum = Math.floor(Math.random() * 2);
-    if (randomNum === 0) {
-      this.listOfPlayers[0].role = 'admin';
-      console.log('En esta partida eres un jugador');
-    } else {
-      console.log('En esta partida eres el administrador');
-    }
-  }
+  setSessionPlayer(player: NewPlayer) {
+    this.sessionPlayer.next(player);
+    this._sessionPlayer.next(player);
+  };
+
 
   get gameStatus() {
     return this._isGameReady.asObservable();
   }
 
-  get players() {
-    return this._players.asObservable();
-  }
+  get sessionPlayerData() {
+    return this._sessionPlayer.asObservable();
+  };
 
   get playerType() {
     return this._playerType.asObservable();
   }
 
-  get playerInSession() {
-    return this._sessionPlayer;
+  get adminPlayer() {
+    return this._isAdminRegistered.asObservable();
   }
 
-  registerPlayer(player: Player) {
-    if (this.listOfPlayers[0].role === 'admin') {
-      player.role = 'player';
-    } else {
-      player.role = 'admin';
-    }
-    this.listOfPlayers.push(player);
-    this._players.next(this.listOfPlayers);
+  registerPlayer(player: NewPlayer, gameId: string): Observable<NewPlayer> {
+    const reqBody: NewPlayer = {
+      game_id: gameId,
+      name: player.name,
+      visualization: player.visualization,
+      role: player.role
+    };
 
-    if (player.playerType === 'spectator') {
+    if (player.visualization === 'propietario') {
+      this.isAdminRegistered = true;
+      this._isAdminRegistered.next(true);
+    }
+
+    if (player.role === 'espectador') {
       this.isPlayerSpectator = true;
-      this._playerType.next('spectator');
+      this._playerType.next('espectador');
     }
 
-    this.sessionPlayer.next(player);
-    sessionStorage.setItem('sessionPlayer', JSON.stringify(player));
-    
-    this.setGameReady(true);
+    return this.http.post<NewPlayer>(`${this.apiUrl}/api/v1/guest`, reqBody)
   }
 
-  setPlayerType(playerType: string) {
-    this._playerType.next(playerType);
-    this.isPlayerSpectator = playerType === 'spectator';
-    this.sessionPlayer.next({...this.sessionPlayer.getValue(), playerType: playerType});
-    this.players.subscribe(players => {
-      const playerIndex = players.findIndex(player => player.username === this.sessionPlayer.getValue().username);
-      players[playerIndex].playerType = playerType;
-    });
-  }
-
-  changeRoles(index: number) {
-    const prevAdmin = this.listOfPlayers.find(player => player.role === 'admin');
-    const newAdmin = this.listOfPlayers[index];
-    if (prevAdmin) {
-      prevAdmin.role = 'player';
-      this.sessionPlayer.next(prevAdmin);
-    }
-    newAdmin.role = 'admin';
-    this._players.next(this.listOfPlayers);
+  getPlayers(gameId: number, url_key: string): Observable<PlayersInGame[]> {
+    return this.http.get<PlayersInGame[]>(`${this.apiUrl}/api/v1/guests/${gameId}/${url_key}`);
   }
 }

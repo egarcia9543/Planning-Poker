@@ -6,24 +6,24 @@
                 No hay cartas registradas
             </p>
         } @else {
-            @if (sessionPlayer.role === 'admin') {
+            @if (true) {
                 <p class="toggle_cards" (click)="changeCards()">🔁</p>
             }
             @for (card of cards; track card; let i = $index) {
-                @if (card == chosenCard) {
+                @if (card.value == 999) {
                     <p class="card chosen">
-                        {{card}}
+                        {{card.value}}
                     </p>
                 } @else {
-                     @if (isCardChosen) {
+                      @if (isCardChosen) {
                         <p class="card" [class.not_allowed]="isCardChosen">
-                            {{card}}
+                            {{card.value}}
                         </p>
-                     } @else {
-                        <p class="card" (click)="onCardClicked(card)">
-                            {{card}}
+                      } @else {
+                        <p class="card" (click)="onCardClicked(card.value)">
+                            {{card.value}}
                         </p>
-                     }
+                      }
                     }
                 }
         }

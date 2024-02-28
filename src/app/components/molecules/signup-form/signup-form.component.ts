@@ -2,6 +2,7 @@ import { PlayersService } from './../../../services/players.service';
 import { Component, inject } from '@angular/core';
 import { ButtonComponent } from '../../atoms/button/button.component';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { NewPlayer } from '../../../interfaces/players.interface';
 
 @Component({
   selector: 'app-signup-form',
@@ -11,14 +12,17 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
   styleUrl: './signup-form.component.css'
 })
 export class SignupFormComponent {
-  constructor(private fb: FormBuilder) {
+  public isAdminRegistered: boolean = false;
+  public isGameReady: boolean = false;
+  constructor(private fb: FormBuilder, private playerService: PlayersService) {
     this.playerService.gameStatus.subscribe((value: boolean) => {
       this.isGameReady = value;
-    })
-  }
+    });
 
-  private playerService = inject(PlayersService);
-  isGameReady: boolean = false;
+    this.playerService.adminPlayer.subscribe((value: boolean) => {
+      this.isAdminRegistered = value;
+    });
+  }
 
   signupForm = this.fb.group({
     username: ['', [
@@ -31,12 +35,19 @@ export class SignupFormComponent {
   })
 
   onSubmit() {
-    this.playerService.registerPlayer({
-      username: this.signupForm.value.username ?? '',
-      playerType: this.signupForm.value.playerType ?? '',
-      role: '',
-      initials: this.signupForm.value.username?.substring(0,2).toUpperCase() ?? '',
-      score: null
-    });
+    const role = this.isAdminRegistered ? 'jugador' : 'propietario';
+    const playerData: NewPlayer = {
+      name: this.signupForm.value.username!,
+      role: this.signupForm.value.playerType!,
+      visualization: role
+    };
+
+    const gameData = JSON.parse(localStorage.getItem('gameData')!);
+    this.playerService.registerPlayer(playerData, gameData.id)
+      .subscribe(res => {
+        sessionStorage.setItem('sessionPlayer', JSON.stringify(res));
+        this.playerService.setSessionPlayer(res);
+        this.playerService.setGameReady(true);
+      })
   }
 }

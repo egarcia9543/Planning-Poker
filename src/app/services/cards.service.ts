@@ -1,13 +1,23 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { PlayersService } from './players.service';
+import { environment } from '../../environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { Cards } from '../interfaces/cards.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CardsService {
+  //NEW
+  private apiUrl = environment.baseUrl;
+  constructor(private playerService: PlayersService, private http: HttpClient) { }
 
-  constructor(private playerService: PlayersService) { }
+  getCards(): Observable<Cards[]> {
+    return this.http.get<Cards[]>(`${this.apiUrl}/api/v1/cards`);
+  }
+
+  //OLD
   private chosenCards: (number | string)[] = [];
   private _chosenCards: BehaviorSubject<(number | string)[]> = new BehaviorSubject<(number | string)[]>([]);
 
@@ -68,19 +78,27 @@ export class CardsService {
     })
     this._countVotes.next(this.countVotes);
   }
-  
+
   resetGame() {
     this.chosenCards = [];
     this._chosenCards.next(this.chosenCards);
     this.average = 0;
     this._average.next(this.average);
-    this.playerService.players.subscribe(players => {
-      players.forEach(player => {
-        player.score = null;
-      })
-    })
+    // this.playerService.players.subscribe(players => {
+    //   players.forEach(player => {
+    //     player.score = null;
+    //   })
+    // })
     this._chosenCard.next(null);
     this.countVotes = {};
     this._countVotes.next(this.countVotes);
+  }
+
+  selectCard(player_id: string, game_id: string, qualification: number): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/api/v1/selectcard`, {
+      "id": player_id,
+      "game_id": game_id,
+      "qualification": qualification
+    });
   }
 }

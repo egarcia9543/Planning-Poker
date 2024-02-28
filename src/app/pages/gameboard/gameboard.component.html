@@ -11,10 +11,10 @@
         <app-title
         [text]="boardName()"/>
         <div class="navbar_user">
-            <p class="user_initials" (click)="changePlayerType(sessionPlayer)">
-                {{sessionPlayer.initials}}
+            <p class="user_initials" (click)="changePlayerType()">
+                {{sessionPlayer.name | initials}}
             </p>
-            <app-button 
+            <app-button
             buttonText="Invitar jugadores"
             buttonClass="button nav_button"
             (buttonClicked)="toggleInviteModal()"
@@ -35,7 +35,7 @@
             </div>
             <div class="modal_body">
                 <input type="text" [value]="inviteLink" class="invite_link" id="invite-link" readonly>
-                <app-button 
+                <app-button
                 buttonClass="button primary_button"
                 buttonText="Copiar link"
                 (buttonClicked)="copyToClipboard()"/>
@@ -45,25 +45,25 @@
 
     <div class="board_top">
     @for (player of players.slice(0, 3); track $index) {
-        @if (player.playerType === 'spectator') {
-            <p class="player_card_spectator">{{player.initials}}</p>
-        } @else if (player.score !== null) {
+        @if (player.guest_visualization === 'spectator') {
+            <p class="player_card_spectator">{{player.guest_name | initials}}</p>
+        } @else if (player.game_show_cards !== 0) {
             <div class="player">
                 @if (revealCards) {
-                    <p class="player_card value">{{player.score}}</p>
-                    <p class="player_card_username">{{player.username}}</p>
+                    <p class="player_card value">{{player.guest_visualization | initials}}</p>
+                    <p class="player_card_username">{{player.guest_name}}</p>
                 } @else {
                     <p class="player_card_chosen"></p>
-                    <p class="player_card_username">{{player.username}}</p>
+                    <p class="player_card_username">{{player.guest_name}}</p>
                 }
             </div>
         } @else {
             <div class="player">
                 <p class="player_card"></p>
                 @if (sessionPlayer.role === 'admin' && !revealCards) {
-                    <p class="player_card_username clickable" (click)="makeAdmin(player)" >{{player.username}}</p>
+                    <p class="player_card_username clickable" (click)="makeAdmin()" >{{player.guest_name}}</p>
                 }@else {
-                    <p class="player_card_username">{{player.username}}</p>
+                    <p class="player_card_username">{{player.guest_name}}</p>
                 }
             </div>
         }
@@ -72,25 +72,25 @@
 
     <div class="board_right">
     @for (player of players.slice(3, 4); track $index) {
-        @if (player.playerType === 'spectator') {
-            <p class="player_card_spectator">{{player.initials}}</p>
-        } @else if (player.score !== null) {
+        @if (player.guest_visualization === 'spectator') {
+            <p class="player_card_spectator">{{player.guest_name | initials}}</p>
+        } @else if (player.game_show_cards !== 0) {
             <div class="player">
                 @if (revealCards) {
-                    <p class="player_card value">{{player.score}}</p>
-                    <p class="player_card_username">{{player.username}}</p>
+                    <p class="player_card value">{{player.guest_visualization | initials}}</p>
+                    <p class="player_card_username">{{player.guest_name}}</p>
                 } @else {
                     <p class="player_card_chosen"></p>
-                    <p class="player_card_username">{{player.username}}</p>
+                    <p class="player_card_username">{{player.guest_name}}</p>
                 }
             </div>
         } @else {
             <div class="player">
                 <p class="player_card"></p>
                 @if (sessionPlayer.role === 'admin' && !revealCards) {
-                    <p class="player_card_username clickable" (click)="makeAdmin(player)" >{{player.username}}</p>
+                    <p class="player_card_username clickable" (click)="makeAdmin()" >{{player.guest_name}}</p>
                 }@else {
-                    <p class="player_card_username">{{player.username}}</p>
+                    <p class="player_card_username">{{player.guest_name}}</p>
                 }
             </div>
         }
@@ -99,25 +99,25 @@
 
     <div class="board_bottom">
     @for (player of players.slice(4, 7); track $index) {
-        @if (player.playerType === 'spectator') {
-            <p class="player_card_spectator">{{player.initials}}</p>
-        } @else if (player.score !== null) {
+        @if (player.guest_visualization === 'spectator') {
+            <p class="player_card_spectator">{{player.guest_name | initials}}</p>
+        } @else if (player.game_show_cards !== 0) {
             <div class="player">
                 @if (revealCards) {
-                    <p class="player_card value">{{player.score}}</p>
-                    <p class="player_card_username">{{player.username}}</p>
+                    <p class="player_card value">{{player.guest_visualization | initials}}</p>
+                    <p class="player_card_username">{{player.guest_name}}</p>
                 } @else {
                     <p class="player_card_chosen"></p>
-                    <p class="player_card_username">{{player.username}}</p>
+                    <p class="player_card_username">{{player.guest_name}}</p>
                 }
             </div>
         } @else {
             <div class="player">
                 <p class="player_card"></p>
                 @if (sessionPlayer.role === 'admin' && !revealCards) {
-                    <p class="player_card_username clickable" (click)="makeAdmin(player)" >{{player.username}}</p>
+                    <p class="player_card_username clickable" (click)="makeAdmin()" >{{player.guest_name}}</p>
                 }@else {
-                    <p class="player_card_username">{{player.username}}</p>
+                    <p class="player_card_username">{{player.guest_name}}</p>
                 }
             </div>
         }
@@ -126,25 +126,25 @@
 
     <div class="board_left">
     @for (player of players.slice(7, 8); track $index) {
-        @if (player.playerType === 'spectator') {
-            <p class="player_card_spectator">{{player.initials}}</p>
-        } @else if (player.score !== null) {
+        @if (player.guest_visualization === 'spectator') {
+            <p class="player_card_spectator">{{player.guest_name | initials}}</p>
+        } @else if (player.game_show_cards !== 0) {
             <div class="player">
                 @if (revealCards) {
-                    <p class="player_card value">{{player.score}}</p>
-                    <p class="player_card_username">{{player.username}}</p>
+                    <p class="player_card value">{{player.guest_visualization | initials}}</p>
+                    <p class="player_card_username">{{player.guest_name}}</p>
                 } @else {
                     <p class="player_card_chosen"></p>
-                    <p class="player_card_username">{{player.username}}</p>
+                    <p class="player_card_username">{{player.guest_name}}</p>
                 }
             </div>
         } @else {
             <div class="player">
                 <p class="player_card"></p>
                 @if (sessionPlayer.role === 'admin' && !revealCards) {
-                    <p class="player_card_username clickable" (click)="makeAdmin(player)" >{{player.username}}</p>
+                    <p class="player_card_username clickable" (click)="makeAdmin()" >{{player.guest_name}}</p>
                 }@else {
-                    <p class="player_card_username">{{player.username}}</p>
+                    <p class="player_card_username">{{player.guest_name}}</p>
                 }
             </div>
         }
@@ -157,7 +157,7 @@
                 <div [class.hidden]="revealCards">
                     @if (canRevealCards) {
                         @if (sessionPlayer.role === 'admin') {
-                            <app-button 
+                            <app-button
                             buttonClass="button secondary_button"
                             buttonText="Revelar cartas"
                             (buttonClicked)="revealCardsEvent()"/>
@@ -168,7 +168,7 @@
                 </div>
                 <div [class.hidden]="!revealCards" [class.show]="average !== 0">
                     @if (sessionPlayer.role === 'admin') {
-                        <app-button 
+                        <app-button
                         buttonClass="button secondary_button"
                         buttonText="Volver a jugar"
                         (buttonClicked)="resetGame()"
@@ -180,10 +180,10 @@
             </div>
         </div>
     </div>
-    
+
     @if (!isSpectator) {
         <div [class.hidden]="revealCards">
-            <app-card /> 
+            <app-card />
         </div>
     }
     @if(revealCards) {
@@ -204,5 +204,5 @@
             <p class="value bold">{{average}}</p>
         </div>
     }
-    
+
 </main>

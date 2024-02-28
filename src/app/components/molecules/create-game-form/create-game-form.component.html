@@ -1,10 +1,10 @@
-<form class="form_container" (submit)="createGame()">
+<form class="form_container" (submit)="createGame($event)">
   <div class="form_fields">
     <label class="form_label" for="game_name">Nombra la partida</label>
     <input class="form_input" id="game_name" type="text" [formControl]="checkForm">
   </div>
-  <app-button 
-  buttonText="Crear partida" 
-  buttonClass="button primary_button" 
+  <app-button
+  buttonText="Crear partida"
+  buttonClass="button primary_button"
   [buttonDisabled]="!checkForm.valid" />
 </form>
