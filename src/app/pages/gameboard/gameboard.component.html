@@ -24,7 +24,7 @@
 </header>
 <main class="board">
     <div [class.board_signup]="!isGameReady">
-        <app-signup-form />
+        <app-signup-form *ngIf="!isGameReady"></app-signup-form>
     </div>
 
     <div [class.invite_modal]="isInviteModalOpen" [class.modal_closed]="!isInviteModalOpen">
@@ -45,12 +45,12 @@
 
     <div class="board_top">
     @for (player of players.slice(0, 3); track $index) {
-        @if (player.guest_visualization === 'spectator') {
+        @if (player.guest_visualization === 'espectador') {
             <p class="player_card_spectator">{{player.guest_name | initials}}</p>
         } @else if (player.game_show_cards !== 0) {
             <div class="player">
                 @if (revealCards) {
-                    <p class="player_card value">{{player.guest_visualization | initials}}</p>
+                    <p class="player_card value">{{player.guests_qualification}}</p>
                     <p class="player_card_username">{{player.guest_name}}</p>
                 } @else {
                     <p class="player_card_chosen"></p>
@@ -96,15 +96,15 @@
         }
     }
     </div>
-
     <div class="board_bottom">
     @for (player of players.slice(4, 7); track $index) {
-        @if (player.guest_visualization === 'spectator') {
+        @if (player.guest_visualization === 'espectador') {
             <p class="player_card_spectator">{{player.guest_name | initials}}</p>
         } @else if (player.game_show_cards !== 0) {
             <div class="player">
                 @if (revealCards) {
-                    <p class="player_card value">{{player.guest_visualization | initials}}</p>
+                  <p>HOla</p>
+                    <p class="player_card value">{{player.guests_qualification}}</p>
                     <p class="player_card_username">{{player.guest_name}}</p>
                 } @else {
                     <p class="player_card_chosen"></p>
@@ -126,7 +126,7 @@
 
     <div class="board_left">
     @for (player of players.slice(7, 8); track $index) {
-        @if (player.guest_visualization === 'spectator') {
+        @if (player.guest_visualization === 'espectador') {
             <p class="player_card_spectator">{{player.guest_name | initials}}</p>
         } @else if (player.game_show_cards !== 0) {
             <div class="player">
@@ -156,26 +156,26 @@
             <div class="board_table_center">
                 <div [class.hidden]="revealCards">
                     @if (canRevealCards) {
-                        @if (sessionPlayer.role === 'admin') {
+                        @if (sessionPlayer.visualization === 'propietario') {
                             <app-button
                             buttonClass="button secondary_button"
                             buttonText="Revelar cartas"
                             (buttonClicked)="revealCardsEvent()"/>
-                        }@else {
+                        }<!-- @else {
                             <p [class.hidden]="!canRevealCards" class="board_label">Contando votos</p>
-                        }
+                        } -->
                     }
                 </div>
                 <div [class.hidden]="!revealCards" [class.show]="average !== 0">
-                    @if (sessionPlayer.role === 'admin') {
+                    @if (sessionPlayer.visualization === 'propietario') {
                         <app-button
                         buttonClass="button secondary_button"
                         buttonText="Volver a jugar"
                         (buttonClicked)="resetGame()"
                         />
-                    }@else {
+                    }<!-- }@else {
                         <p [class.hidden]="!canRevealCards" class="board_label">Contando votos</p>
-                    }
+                    } -->
                 </div>
             </div>
         </div>

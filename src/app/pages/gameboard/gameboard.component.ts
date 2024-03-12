@@ -47,47 +47,52 @@ export class GameboardComponent {
 
 
   constructor(private route: ActivatedRoute, private playerService: PlayersService, private cardsService: CardsService) {
+    localStorage.setItem('gameData', JSON.stringify(this.gameData));
+
     this.playerService.adminPlayer.subscribe((value: boolean) => {
       this.isAdminRegistered = value;
     });
 
-  }
-
-
-  ngOnInit() {
-    //NEW
     this.playerService.gameStatus.subscribe((value: boolean) => {
       this.isGameReady = value;
     });
 
+    const playerData = JSON.parse(localStorage.getItem('sessionPlayer')!);
+    if (playerData) {
+      this.sessionPlayer = playerData;
+    }
+    if (this.sessionPlayer.name !== '' && this.sessionPlayer.game_id == this.gameData.id.toString()) {
+      this.isGameReady = true;
+    }
 
-    this.intervalSubscription = interval(1000).subscribe(() => {
+  }
+
+  ngOnInit() {
+    this.intervalSubscription = interval(5000).subscribe(() => {
       this.playerService.getPlayers(this.gameData.id, this.gameData.url_key).subscribe((players: PlayersInGame[]) => {
         this.players = players;
       });
     });
-    
-    this.sessionPlayerId = this.players.find(player => player.guest_name === this.sessionPlayer.name)!.guest_id;
-    localStorage.setItem('sessionPlayerId', this.sessionPlayerId.toString());
+
+    this.cardsService.selectedCards.subscribe((cards: (number)[]) => {
+      this.selectedCards = cards;
+      if (cards.length === this.players.length) {
+        this.canRevealCards = true;
+      }
+    });
   }
 
   changePlayerType() {
     console.log('PlayerVIsual')
-    // if (this.selectedCards.length > 0) {
-      //   alert('Ya has votado, no puedes cambiar de rol');
-      // } else if (player.playerType === 'player') {
-    //     this.playerService.setPlayerType('spectator');
-    //     this.isSpectator = true;
-    //   } else {
-    //     this.playerService.setPlayerType('player');
-    //     this.isSpectator = false;
-    //   }
   }
 
   revealCardsEvent() {
-      this.revealCards = !this.revealCards;
-      this.cardsService.calcAverage();
-      this.cardsService.countCardVotes();
+      this.revealCards = true;
+      this.cardsService.showCards(this.gameData.id.toString(), this.gameData.url_key).subscribe((res: any) => {
+        console.log(res);
+      });
+      // this.cardsService.calcAverage();
+      // this.cardsService.countCardVotes();
   }
 
   resetGame() {
@@ -96,6 +101,14 @@ export class GameboardComponent {
       this.votes = {};
       this.canRevealCards = false;
       this.selectedCards = [];
+      this.cardsService.hideCards(this.gameData.id.toString(), this.gameData.url_key).subscribe((res: any) => {
+        console.log(res);
+      });
+      this.cardsService.selectCard(this.sessionPlayer.id!.toString(), this.gameData.id.toString(), null).subscribe((res: any) => {
+        console.log(res);
+      });
+
+      this.cardsService.unselectCards([]);
   }
 
   copyToClipboard() {
@@ -112,5 +125,11 @@ export class GameboardComponent {
     // const playerIndex = this.players.findIndex(player => player.username === playerData.username);
     // this.playerService.changeRoles(playerIndex);
     console.log('ADmin')
+  }
+
+  ngOnDestroy() {
+    this.intervalSubscription.unsubscribe();
+    localStorage.removeItem('gameData');
+    localStorage.removeItem('sessionPlayer');
   }
 }

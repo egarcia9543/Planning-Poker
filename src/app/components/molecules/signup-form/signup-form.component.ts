@@ -45,7 +45,7 @@ export class SignupFormComponent {
     const gameData = JSON.parse(localStorage.getItem('gameData')!);
     this.playerService.registerPlayer(playerData, gameData.id)
       .subscribe(res => {
-        sessionStorage.setItem('sessionPlayer', JSON.stringify(res));
+        localStorage.setItem('sessionPlayer', JSON.stringify(res));
         this.playerService.setSessionPlayer(res);
         this.playerService.setGameReady(true);
       })

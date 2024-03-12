@@ -15,4 +15,5 @@ export interface PlayersInGame {
   guest_name: string;
   guest_visualization: string;
   guest_role: string;
+  guests_qualification: number;
 }

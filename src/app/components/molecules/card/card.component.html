@@ -6,11 +6,8 @@
                 No hay cartas registradas
             </p>
         } @else {
-            @if (true) {
-                <p class="toggle_cards" (click)="changeCards()">🔁</p>
-            }
             @for (card of cards; track card; let i = $index) {
-                @if (card.value == 999) {
+                @if (card.value == selectedCard) {
                     <p class="card chosen">
                         {{card.value}}
                     </p>

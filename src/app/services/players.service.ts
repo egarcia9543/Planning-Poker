@@ -16,7 +16,7 @@ export class PlayersService {
   private isGameReady = new BehaviorSubject<boolean>(false);
   private _isGameReady: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-  private sessionPlayer = new BehaviorSubject<NewPlayer>({} as NewPlayer);
+  private sessionPlayer = new BehaviorSubject<NewPlayer>(JSON.parse(localStorage.getItem('sessionPlayer')!) as NewPlayer);
   private _sessionPlayer: BehaviorSubject<NewPlayer> = new BehaviorSubject<NewPlayer>({} as NewPlayer);
 
   private isAdminRegistered: boolean = false;
@@ -69,7 +69,7 @@ export class PlayersService {
       this._playerType.next('espectador');
     }
 
-    return this.http.post<NewPlayer>(`${this.apiUrl}/api/v1/guest`, reqBody)
+    return this.http.post<NewPlayer>(`${this.apiUrl}/api/v1/guest`, reqBody);
   }
 
   getPlayers(gameId: number, url_key: string): Observable<PlayersInGame[]> {

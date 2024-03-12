@@ -13,13 +13,18 @@ export class CardsService {
   private apiUrl = environment.baseUrl;
   constructor(private playerService: PlayersService, private http: HttpClient) { }
 
+  private chosenCards: (number)[] = [];
+  private _chosenCards: BehaviorSubject<(number)[]> = new BehaviorSubject<(number)[]>([]);
+
   getCards(): Observable<Cards[]> {
     return this.http.get<Cards[]>(`${this.apiUrl}/api/v1/cards`);
   }
 
+  get selectedCards() {
+    return this._chosenCards.asObservable();
+  }
+
   //OLD
-  private chosenCards: (number | string)[] = [];
-  private _chosenCards: BehaviorSubject<(number | string)[]> = new BehaviorSubject<(number | string)[]>([]);
 
   private average: number = 0;
   private _average: BehaviorSubject<number> = new BehaviorSubject<number>(0);
@@ -34,10 +39,6 @@ export class CardsService {
     return this._chosenCard.asObservable();
   }
 
-  get selectedCards() {
-    return this._chosenCards.asObservable();
-  }
-
   get averageCards() {
     return this._average.asObservable();
   }
@@ -46,7 +47,7 @@ export class CardsService {
     return this._countVotes.asObservable();
   }
 
-  addCard(card: number | string) {
+  addCard(card: number) {
     this.chosenCards.push(card);
     this._chosenCards.next(this.chosenCards);
     this.setChosenCard(card);
@@ -58,15 +59,15 @@ export class CardsService {
   }
 
   calcAverage() {
-    let sum = 0;
-    this.chosenCards.forEach(card => {
-      if (card !== '?' && card !== '☕') {
-        sum += Number(card);
-      }
-    })
-    this.average = Number((sum / this.chosenCards.length).toFixed(2));
-    this._average.next(this.average);
+
   }
+
+  set unselectCards(value: any) {
+    this.chosenCards = [];
+    this._chosenCards.next(this.chosenCards);
+  }
+
+
 
   countCardVotes() {
     this.chosenCards.forEach(card => {
@@ -94,11 +95,27 @@ export class CardsService {
     this._countVotes.next(this.countVotes);
   }
 
-  selectCard(player_id: string, game_id: string, qualification: number): Observable<any> {
+  selectCard(player_id: string, game_id: string, qualification: number | null): Observable<any> {
+    this.chosenCards.push(qualification as number);
+    this._chosenCards.next(this.chosenCards);
     return this.http.patch(`${this.apiUrl}/api/v1/selectcard`, {
       "id": player_id,
       "game_id": game_id,
       "qualification": qualification
+    });
+  }
+
+  showCards(game_id: string, url_key: string): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/api/v1/showcard`, {
+      "id": game_id,
+      "url_key": url_key,
+    });
+  }
+
+  hideCards(game_id: string, url_key: string): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/api/v1/hidencard`, {
+      "id": game_id,
+      "url_key": url_key,
     });
   }
 }
